@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+Name: Ethan Smith
+Assignment: Forms 2
+Class: Web Programming
+Date: Sept 14 2021
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Forms Part 2</title>
+    </head>
+    <body>
+        <form>
+            <input type="hidden" id="StudentId" name="StudentId" value="1234567">
+            Check the box if you have completed the following:<br>
+            <input type="checkbox" id="Registration" name="Registration" value="Registration">
+            <label for="Registration">Registration </label><br>
+            <input type="checkbox" id="FoundDormRoom" name="FoundDormRoom" value="FoundDormRoom">
+            <label for="FoundDormRoom">Found your dorm room </label><br>
+            <input type="checkbox" id="FoundCafeteria" name="FoundCafeteria" value="FoundCafeteria">
+            <label for="FoundCafeteria">Found the cafeteria </label><br>
+            <input type="checkbox" id="FoundFriend" name="FoundFriend" value="FoundFriend">
+            <label for="FoundFriend">Found a friend </label><br> <!-- registration in hard mode i see -->
+            <input type="checkbox" id="PaidTuition" name="PaidTuition" value="PaidTuition">
+            <label for="PaidTuition">Paid tuition </label><br><br>
+            Select your degree:<br>
+            <input type = "radio" id ="ComputerScience" name = "Major" value = "ComputerScience">
+            <label for="ComputerScience">Computer Science</label><br>
+            <input type = "radio" id ="Cybersecurity" name = "Major" value = "Cybersecurity">
+            <label for="Cybersecurity">Cybersecurity</label><br>
+            <input type = "radio" id ="ComputerScienceCertificate" name = "Major" value = "ComputerScienceCertificate">
+            <label for="ComputerScienceCertificate">Computer Science Certificate</label><br>
+            <input type = "radio" id ="CybersecurityMasters" name = "Major" value = "CybersecurityMasters">
+            <label for="CybersecurityMasters">Cybersecurity Masters</label><br>
+            <input type = "radio" id ="Other" name = "Major" value = "Other">
+            <label for="Other">Other</label><br>
+            Select your favorite Harry Potter character ( from the list):<br>
+            <input type = "radio" id ="HarryPotter" name = "Character" value = "HarryPotter">
+            <label for="HarryPotter">Harry Potter</label><br>
+            <input type = "radio" id ="HermioneGranger" name = "Character" value = "HermioneGranger">
+            <label for="HermioneGranger">Hermione Granger</label><br>
+            <input type = "radio" id ="AlbusDumbledore" name = "Character" value = "AlbusDumbledore">
+            <label for="AlbusDumbledore">Albus Dumbledore</label><br>
+            <input type = "radio" id ="ChoChang" name = "Character" value = "ChoChang">
+            <label for="ChoChang">Cho Chang</label><br>
+            <input type = "radio" id ="LunaLovegood" name = "Character" value = "LunaLovegood">
+            <label for="LunaLovegood">Luna Lovegood</label><br>
+            <input type = "radio" id ="DracoMalfoy" name = "Character" value = "DracoMalfoy">
+            <label for="DracoMalfoy">Draco Malfoy</label><br>
+            Select your favorite Hogwarts House:<br>
+            <select id = "House" name = "House">
+              <option value="Gryffindor">Gryffindor</option>
+              <option value = "Hufflepuff">Hufflepuff</option>
+              <option value = "Ravenclaw">Ravenclaw</option>
+              <option value = "Slytherin">Slytherin</option>
+            </select><br><br>
+
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </form>
+    </body>
+</html>
