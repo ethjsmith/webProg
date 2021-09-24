@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+Name: Ethan Smith
+Assignment: Forms 5
+Class: Web Programming
+Date: Sept 23 2021
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Forms Part 5</title>
+    </head>
+    <body>
+        <form>
+            <!-- I Don't really understand what you want here--><button type="button" id="btn" onclick="getElementById('btn').innerHTML = 'Thanks for the click, sucker'">I'm a button, click me!!</button><br>
+            <textarea id="ta" rows='5' cols='40'></textarea><br>
+            <fieldset>
+              <legend>pick an option, (Very important) </legend>
+              <input type ="radio" id="r1" name="ha"><label for='r1'>Yes</label><br>
+              <input type ="radio" id="r2" name="ha"><label for='r2'>No</label><br>
+            </fieldset>
+
+            Pick something :)
+            <input list="d" name="b" id = "b">
+            <datalist id = "d">
+              <option value="Yes">
+              <option value="No">
+              <option value="hehe">
+              </datalist><br>
+            <select id="ye">
+              <optgroup label = "objects">
+                <option> Thing </option>
+                <option> Item </option>
+                <option> box </option>
+              </optgroup>
+              <optgroup label = "concepts">
+                <option>Love</option>
+                <option>Death</option>
+                <option>Elation</option>
+              </optgroup>
+            </select>
+
+
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </form>
+    </body>
+</html>
