@@ -33,3 +33,18 @@ Submission is overall functional
 Interface is neat and visually appealing
 
 haha what
+
+
+sitemap  ? ::
+
+homepage that explains what the website is ?
+login page < ? > I think this is temp, I will not be using it ?
+register page <?> I think this will redirect to spotify, not to my account ?
+
+honestly? I don't really think I need user authentication, it kind of goes against the point of this site  ? and if I'm being real, I don't need a database either lmfao what is this
+
+playlist creator page -> is there multiple of these ? I don't think so
+
+your created(saved?) pages/playlists <?> this would probably link to user and stuff
+
+about <?> this is where I'd stick a video LOL 
