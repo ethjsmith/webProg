@@ -47,4 +47,11 @@ playlist creator page -> is there multiple of these ? I don't think so
 
 your created(saved?) pages/playlists <?> this would probably link to user and stuff
 
-about <?> this is where I'd stick a video LOL 
+about <?> this is where I'd stick a video LOL
+index.html"> Home </a>
+<a href = "/login.html">Login</a>
+<a href = "/register.html">Register </a>
+<a href = "/create.html">Create a list !</a>
+<a href = "/saved.html"> Your lists </a>
+<a href = "/about.html">About the site </a>
+</nav><br>
