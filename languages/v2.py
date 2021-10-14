@@ -1,6 +1,6 @@
+# Ethan Smith, Programming languages Regex assignment 10/14/2021
 import re
 search_file = 'warpeace.txt'
-
 # list contains the type of regex, the actual regex ( as a raw string so that python wont escape some of the charaters) and a count of number of times it was found
 terms = [
     ["phone number",r"(1-)?\(?\d{3}\)?\s?[-\s]\d{3}-\d{4}",0],
