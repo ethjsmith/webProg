@@ -1,9 +1,11 @@
-# Ethan Smith, Programming languages Regex assignment 10/14/2021
+# Ethan Smith
+# Programming languages Regex assignment
+# 10/14/2021
 import re
 search_file = 'warpeace.txt'
-# list contains the type of regex, the actual regex ( as a raw string so that python wont escape some of the charaters) and a count of number of times it was found
+# list contains the type of regex, the actual regex, and a count of number of times it was found
 terms = [
-    ["phone number",r"(1-)?\(?\d{3}\)?\s?[-\s]\d{3}-\d{4}",0],
+    ["phone number",r"(1-)?\(?\d{3}\)?\s?[-\s]\d{3}-\d{4}",0], #storing the regex as raw strings so that python wont escape/interpret some of the charaters
     ["account number",r"[a-zA-Z]{2}-\d{4}-[a-zA-Z]\d{5}",0],
     ["ssn",r"\d{3}-\d{2}-\d{4}",0],
     ["date",r"(0[1-9]|1[0-2])[\/-](0[1-9]|[0-2]\d|3[0-1])[\/-](\d{4}|[1-9]\d)",0],
