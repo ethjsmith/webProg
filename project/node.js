@@ -183,28 +183,3 @@ app.use(express.static(__dirname + '/public'))
  app.listen(port, () => {
    console.log(`Listening to requests on http://localhost:${port}`);
  });
-
-
-// /**
-//  * This is an example of a basic node.js script that performs
-//  * the Authorization Code oAuth2 flow to authenticate against
-//  * the Spotify Accounts.
-//  *
-//  * For more information, read
-//  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
-//  */
-//
-
-
-
-
-// var app = express();
-//
-// app.use(express.static(__dirname + '/public'))
-//    .use(cors())
-//    .use(cookieParser());
-
-
-
-// console.log('Listening on 8888');
-// app.listen(8888);
