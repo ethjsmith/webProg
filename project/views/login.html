@@ -1,21 +1,7 @@
-<!DOCTYPE html>
-<!--
-Name: Ethan Smith
-Assignment: project login page
-Class: Web programming
-Date: Oct 4, 2021
--->
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>playlist maker</title>
-    </head>
-    <body>
-      <nav>
+{% extends "base.html" %}
 
-      </nav><br>
-      <main>
-        <div id="mainContent">
+{% block content %}
+
           <form>
               <label for="first_name">Username:</label>
               <input type="text" id="username" name="username">
@@ -32,7 +18,4 @@ Date: Oct 4, 2021
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
           </form>
-        </div>
-      </main>
-    </body>
-</html>
+          {% endblock %}

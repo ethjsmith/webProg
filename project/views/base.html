@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+Name: Ethan Smith
+Assignment: project
+Class: Web programming
+Date: Oct 4, 2021
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+    </head>
+    <body>
+
+      <nav>
+	  	<div class="nava">
+			<a href = "/"> Home</a>
+			<a href = "login">Login</a>
+			<a href = "register">Register</a>
+			<a href = "create">Create a list !</a>
+			<a href = "saved"> Your lists</a>
+			<a href = "about">About the site</a>
+			<br>
+		</div>
+      <br>
+	  </nav>
+	  <br>
+      <main>
+        <div id="mainContent">
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+	  </div>
+    </body>
+</html>

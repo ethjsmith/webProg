@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<!--
-Name: Ethan Smith
-Assignment: project
-Class: Web programming
-Date: Oct 4, 2021
--->
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>About the maker</title>
-    </head>
-    <body>
-      <nav>
+{% extends "base.html" %}
 
-      </nav><br>
-      <main>
+{% block content %}
         <div id="mainContent">
           <!-- using an IFRAME instead of a video element as discussed in class-->
           <!-- some of the attributes in the video are required by youtube in order to correctly embed the video in the player. -->
@@ -24,6 +10,4 @@ Date: Oct 4, 2021
           how? Yes<br><br>
           why? Because<br><br>
         </div>
-      </main>
-    </body>
-</html>
+        {% endblock %}
