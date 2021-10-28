@@ -26,11 +26,6 @@
 
 
 import re
-def getTokens(l):
-    # lexes a single line
-    for char in l:
-        # look for various types of things
-            print("ok")
 def isIdentifier(s): # this is like a variable ? I don't know how to make it match that ... unquoted string not matched by keyword I guess
     if (re.match(r"[\dA-Za-z]+",s)):
         print(f" Found Identifier :{s}")
@@ -77,7 +72,7 @@ def isKeyword(s): # I guess this just matches all the specific keywords in the l
 def isEnd(s): # should I make a character at the end? I don't personally like that, but it's easier ...
 
     if (re.match(r";",s)):
-        print(f" Found endline :{s[:-1]}") # trim endline character when printing, because this is janky af 
+        print(f" Found endline :{s[:-1]}") # trim endline character when printing, because this is janky af
         return 1
     else:
         return 0
@@ -99,7 +94,7 @@ def parseLine(l):
     str = False
     for c in l:
         full += c # full sequence we're checking
-        if c == "\"" or c =="?":
+        if c == "\"" or (c =="?" and str == False):
             if str:
                 str = False
                 callall(full)
