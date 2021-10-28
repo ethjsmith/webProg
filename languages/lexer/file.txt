@@ -5,3 +5,5 @@ x = 22 + 44 ;
 Define x1 = "Hi there";
 Update x1 = "see you later";
 Print "Hi"
+
+Define "does this make sense" + ar123yeah ;
