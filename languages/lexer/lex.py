@@ -29,51 +29,51 @@ import re
 def isIdentifier(s): # this is like a variable ? I don't know how to make it match that ... unquoted string not matched by keyword I guess
     if (re.match(r"[\dA-Za-z]+",s)):
         print(f" Found Identifier :{s}")
-        return 1
+        return ["Identifier",s]
     else:
         return 0
 def isNumber(s):
     if (re.match(r"\d+",s)):
         print(f" Found number :{s}")
-        return 1
+        return ["Number",s]
     else:
         return 0
 
 def isOperator(s): # there are other operators that are multicharacter too I think like comparasion ==
     if (re.match(r"[\+\-\*\/]",s)):
         print(f" Found operator :{s}")
-        return 1
+        return ["Operator",s]
     else:
         return 0
 def isAssignment(s):
     if (re.match(r"=",s)): # ez?
         print(f" Found assignment :{s}")
-        return 1
+        return ["Assignment",s]
     else:
         return 0
 def isComment(s): # two comments  ?
     if (re.match(r"^[#|?].*",s)):
         print(f" Found comment :{s}")
-        return 1
+        return ["Comment",s]
     else:
         return 0
 def isString(s):# this probably doesn't work
     if (re.match(r"^\".*\"$",s)):
         print(f" Found String :{s}")
-        return 1
+        return ["String",s]
     else:
         return 0
 def isKeyword(s): # I guess this just matches all the specific keywords in the language?
     if (re.match(r"(Define|Update|Print)",s)):
         print(f" Found keyword :{s}")
-        return 1
+        return ["Keyword",s]
     else:
         return 0
 def isEnd(s): # should I make a character at the end? I don't personally like that, but it's easier ...
 
     if (re.match(r";",s)):
         print(f" Found endline :{s[:-1]}") # trim endline character when printing, because this is janky af
-        return 1
+        return ["Endline",s]
     else:
         return 0
 def callall(s): # checks every token against a string
@@ -88,7 +88,10 @@ def callall(s): # checks every token against a string
     str = isString(s)
 
     end = isEnd(s)
-
+    print(locals())
+    for var in locals():
+        if var and var != "s":
+            print(f"NICE::: {var[0]}")
 def parseLine(l):
     full = ""
     str = False
