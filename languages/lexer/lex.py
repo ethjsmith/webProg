@@ -5,7 +5,7 @@
 
 
 # Your lexer must be able to at least extract the following tokens:
-
+#+-*/% == != > < >= <= ! || &&
 # Identifiers
 # Numbers
 # Operators (including assignment operators)
@@ -44,7 +44,7 @@ def isNumber(s):
         return 0
 
 def isOperator(s): # there are other operators that are multicharacter too I think like comparasion ==
-    if (re.match(r"[\+\-\*\/]",s)):
+    if (re.match(r"^([\+\*\-\/><!%]|[\<\>=!]=|\|\||\&\&)$",s)):
         #print(f" Found operator :{s}")
         return ["Operator",s]
     else:
