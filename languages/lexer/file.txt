@@ -1,9 +1,11 @@
-? this is a comment and it is going to be ignored
+# this is a comment and it is going to be ignored
 
 x = 22 + 44 ;
 "Hi there!!!" ;
-Define x1 = "Hi there";
-Update x1 = "see you later";
-Print "Hi"
+DEFINE x1 = "Hi there";
+UPDATE x1 = "see you later";
+PRINT "Hi"
 
-Define "does this make sense?" + ar123yeah ;
+define "does this + make sense?" + ar123yeah ;
+
+ACTIVATE "check this out!?!" 2.3 + 2.3.54.23.3 "what?" # yeah dawg ;
