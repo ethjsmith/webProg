@@ -141,6 +141,7 @@ app.use(express.static(__dirname + '/public'))
        }
      });
    }
+   console.log("access token:" + res.access_token)
  });
  app.get("/register", (req, res) => {
    res.render("register.html")
@@ -153,6 +154,19 @@ app.use(express.static(__dirname + '/public'))
  });
  app.get("/about", (req, res) => {
    res.render("about.html")
+ });
+ app.get("/test", (req,res) => {
+   console.log(res)
+   var authOptions = {
+     url: 'https://accounts.spotify.com/api/token',
+     headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+     form: {
+       grant_type: 'refresh_token',
+       refresh_token: refresh_token
+     },
+     json: true
+   };
+   res.redirect("/")
  });
  app.get('/refresh_token', function(req, res) {
 
