@@ -73,7 +73,7 @@ def callall(s):
         if token:
             printtoken(token)
             found = True
-    if not found: # if the token is an error/ invalid identifier... an example would be an unclosed string, or a number with multiple dots 
+    if not found: # if the token is an error/ invalid identifier... an example would be an unclosed string, or a number with multiple dots
         print(f"Type: ERROR \tValue{s}")
 def parseLine(l):
     full = ""
@@ -88,10 +88,10 @@ def parseLine(l):
             else:
                 str = True
         if c ==" " and str == False: # hits a space, which is the delimiter between tokens
-            a = full.rstrip()
+            a = full.rstrip() # stip newline character
             callall(a)
             full = ""
-    a = full.strip()
+    a = full.strip() # run once more after the loop ends to clear the last thing in the buffer*
     callall(a)
     print()
 
