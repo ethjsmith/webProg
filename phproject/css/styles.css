@@ -1,0 +1,45 @@
+body {
+	background-color:#1DB954;
+}
+#realbody {
+	/*background-color:#FEFEFE;*/
+	width:60%;
+	margin:auto;
+	padding:10px;
+	font-family:sans-serif;
+	/*height:100vh;*/
+}
+.nava {
+	margin:auto;
+	width:90%;
+	padding-top:10px;
+}
+main {
+	background-color:#FEFEFE;
+	height:100vh;
+	width:60%;
+	margin:auto;
+	padding:10px;
+	font-family:sans-serif;
+}
+a {
+	text-decoration:none;
+	color:#0A0A0A;
+}
+nav {
+	width:60%;
+	margin:auto;
+	background-color:#FEFEFE;
+	padding:10px;
+}
+nav a{
+	background-color:#c7c7c7;
+	padding:10px;
+}
+nav a:hover{
+		background-color:#BBAAAA;
+		padding:10px;
+}
+h1,h2,h3,h4,h5,h6 {
+	text-align:center;
+}

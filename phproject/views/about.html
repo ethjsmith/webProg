@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+        <div id="mainContent">
+          <!-- using an IFRAME instead of a video element as discussed in class-->
+          <!-- some of the attributes in the video are required by youtube in order to correctly embed the video in the player. -->
+          <h2>Q and A </h2><br>
+          What is spotify?<br>
+          Here's a video explaining it <br><iframe width="560" height="315" src="https://www.youtube.com/embed/j8L5ySUufdE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <br><br>how is logging in handled? you login through the spotify API, so I don't handle your credentials at all, which is neat, although it makes incliding a database harder... <br><br>
+          why was this site made? Because I don't really like spotify's random playlist algorithms, and wanted to try my hand at making my own, which gave me what I wanted, or at least to try to. <br><br>
+          <br><br> How will you include an HTML canvas element in this project?
+          <canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">Your browser does not support the HTML canvas tag.</canvas>
+          <script>
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            ctx.font = "30px Arial";
+            ctx.fillText("Like this :)", 10, 50);
+          </script>
+        </div>
+        {% endblock %}
