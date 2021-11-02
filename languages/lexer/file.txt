@@ -5,7 +5,3 @@ x = 22 + 44 ;
 DEFINE x1 = "Hi there";
 UPDATE x1 = "see you later";
 PRINT "Hi"
-
-define "does this + make sense?" + ar123yeah ;
-
-ACTIVATE "check this out!?!" 2.3 + 2.3.54.23.3 "what?" # yeah dawg ;

@@ -3,8 +3,11 @@
 import re
 
 def printtoken(t): # prints out the token in the format presented by the assignment
-    print(f"Type: {t[0]} \tValue: {t[1]}")
-
+# also writes it to a file, because that seems like a requirement according to the submission page ?
+    out = f"Type: {t[0]} \tValue: {t[1]}"
+    with open("output.txt", "a") as f:
+        f.write(out + "\n")
+        print(out)
 # here are a bunch of functions that each check if a selected segment is of their type using regex
 def isIdentifier(s): # this is like a variable ? I don't know how to make it match that ... unquoted string not matched by keyword I guess
     if (re.match(r"^[a-z][a-z\d]*$",s)):
@@ -74,7 +77,8 @@ def callall(s):
             printtoken(token)
             found = True
     if not found: # if the token is an error/ invalid identifier... an example would be an unclosed string, or a number with multiple dots
-        print(f"Type: ERROR \tValue{s}")
+        #print(f"Type: ERROR \tValue{s}")
+        printtoken(["ERROR",{s}])
 def parseLine(l):
     full = ""
     str = False
@@ -95,7 +99,7 @@ def parseLine(l):
     callall(a)
     print()
 
-
+open("output.txt", "w").close() # wipes out anything in an old file from a previous run 
 with open("file.txt") as f: # reads the file, and steps through each line
     for line in f.readlines():
         parseLine(line)
