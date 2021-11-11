@@ -24,7 +24,7 @@ Date: Oct 4, 2021
 			<a href = "create">Create a list !</a>
 			<a href = "saved"> Your lists</a>
 			<a href = "about">About the site</a>
-      <a href = "test">       Name: {{ res.name }}</a>
+      <a href = "test">       Name: {{ req.name }}</a>
 			<br>
 
 		</div>
@@ -34,6 +34,7 @@ Date: Oct 4, 2021
       <main>
         <div id="mainContent">
           {% block content %}{% endblock %}
+          {{ contents }}
         </div>
       </main>
 	  </div>

@@ -15,17 +15,26 @@ var spotifyApi = new SpotifyWebApi({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  // if (typeof spotifyApi.getUser() !== "undefined" && spotifyApi.getUser()) {
+  //   req.user = spotifyApi.getUser()
+  // }
+  // else {
+  //   req.user="Not Logged In"
+  // }
   res.render('index.html', { title: 'Express' });
 });
 
 router.get('/login', (req,res) => {
   var html = spotifyApi.createAuthorizeURL(scopes)
   console.log(html)
-  res.send(html+"&show_dialog=true")
+  //res.send(html+"&show_dialog=true")
+  res.redirect(html)
+  //res.render('index.html', { title: 'Express' });
 })
 
 router.get('/callback', async (req,res) => {
   const { code } = req.query;
+  console.log("GOT THE CODE :) ")
   console.log(code)
   try {
     var data = await spotifyApi.authorizationCodeGrant(code)
@@ -33,7 +42,7 @@ router.get('/callback', async (req,res) => {
     spotifyApi.setAccessToken(access_token);
     spotifyApi.setRefreshToken(refresh_token);
 
-    res.redirect('http://localhost:3001/home');
+    res.redirect('http://localhost:8888');
   } catch(err) {
     res.redirect('/#/error/invalid token');
   }
@@ -49,14 +58,36 @@ router.get('/userinfo', async (req,res) => {
     }
 });
 
-router.get('/playlists', async (req,res) => {
+router.get('/saved', async (req,res) => {
   try {
     var result = await spotifyApi.getUserPlaylists();
     console.log(result.body);
-    res.status(200).send(result.body);
+    //res.status(200).send(result.body);
+    res.render("base.html",{contents:result.body});
   } catch (err) {
     res.status(400).send(err)
   }
+
+});
+
+router.get('/register', async(req,res) => {
+  res.render('register.html', { title: 'Express' });
+
+});
+router.get('/create', async(req,res) => {
+  res.render('create.html', { title: 'Express' });
+
+});
+router.get('/saved2', async(req,res) => {
+  res.render('saved.html', { title: 'Express' });
+
+});
+router.get('/about', async(req,res) => {
+  res.render('about.html', { title: 'Express' });
+
+});
+router.get('/test', async(req,res) => {
+  res.render('index.html', { title: 'Express' });
 
 });
 
