@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+Name: Ethan Smith
+Assignment: forms
+Class: web development
+Date: Nov 12, 2021
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Form</title>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+      <h1> Form Example </h1>
+      <form class="grid">
+  <fieldset>
+    <legend>Application Information</legend>
+     <label for="name">Name</label>&nbsp;&nbsp;
+     <input type="text" name="name" id="fName" placeholder="First and last name"><br>
+     <label for="email">Email</label>&nbsp;&nbsp;
+     <input type="email" name="email" id="lName" placeholder ="address@example.com"><br>
+    <label for="phone">Phone</label>&nbsp;&nbsp;
+    <input type="tel" name="phone" id="phone"><br>
+  </fieldset>
+  <fieldset>
+    <legend>Job Interest</legend>
+    I am interested in:<br>
+    <input type="checkbox" id="programming" name="programming" value="programming">
+    <label for="programming">Programming</label>
+    <input type="checkbox" id="networking" name="networking" value="networking">
+    <label for="networking">Networking</label>
+    <input type="checkbox" id="app" name="app" value="app">
+    <label for="app">Mobile App Development</label>
+    <input type="checkbox" id="web" name="web" value="web">
+    <label for="web">Web Development</label><br>
+    <label for="date">Start Date <input type="date" name="date" id="date" placeholder="mm/dd/yyyy"></label>
+  </fieldset>
+  <fieldset>
+    <legend>Referral Source</legend>
+    <select id="refer" name="refer">
+      <option value="Advertisement">Advertisement</option>
+      <option value="Friend">Friend</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>Comments and Questions</legend>
+    <br>Questions?<br>
+    <textarea rows="4" cols="25" id="more" name="more"></textarea><br>
+    <input type="submit" class="btn">
+  </fieldset>
+
+</form>
+    </body>
+    </html>

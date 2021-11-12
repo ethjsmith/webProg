@@ -1,0 +1,41 @@
+/*
+Ethan Smith 
+web development forms assignment
+nov 12, 2021
+*/
+body {
+  background-color: #bccbcc;
+  font-family: sans-serif;
+}
+legend {
+  font-weight:bold;
+  font-size: 1.2em;
+}
+h1 {
+  margin:auto;
+  text-align:center;
+  font-family: serif;
+}
+label {
+  margin-right: 3em;
+  padding:10px;
+}
+form {
+  margin:auto;
+  width:90%;
+}
+fieldset {
+  margin:10px 0;
+}
+input {
+  margin:10px;
+}
+select {
+  margin:10px;
+}
+.btn {
+  background-color: #dfd5bc;
+  border:none;
+  border-radius: 4px;
+  padding:5px;
+}
