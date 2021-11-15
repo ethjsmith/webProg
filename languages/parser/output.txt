@@ -1,0 +1,21 @@
+Type: Comment 	Value: # this is a comment and it is going to be ignored
+Type: Identifier 	Value: x
+Type: Assignment 	Value: =
+Type: Number 	Value: 22
+Type: Operator 	Value: +
+Type: Number 	Value: 44
+Type: Endline 	Value: ;
+Type: String 	Value: "Hi there!!!"
+Type: Endline 	Value: ;
+Type: Keyword 	Value: DEFINE
+Type: Identifier 	Value: x1
+Type: Assignment 	Value: =
+Type: String 	Value: "Hi there"
+Type: Endline 	Value: ;
+Type: Keyword 	Value: UPDATE
+Type: Identifier 	Value: x1
+Type: Assignment 	Value: =
+Type: String 	Value: "see you later"
+Type: Endline 	Value: ;
+Type: Keyword 	Value: PRINT
+Type: String 	Value: "Hi"
