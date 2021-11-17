@@ -24,9 +24,38 @@ def expr(tokens):
         return valid
 
 
+def parse(tokens):
+    print("parses")
+
+def parseNumber():
+    print("TODO")
+
+def parseKeyword():
+    print("TODO")
+
+def parseIdentifier():
+    print("TODO")
+
+def parseOperator():
+    print("TODO")
+
+def parseAssignment():
+    print("TODO")
+
+def parseComment():
+    print("TODO")
+
+def parseString():
+    print("TODO")
+
+def parseEnd():
+    print("TODO")
+# Some pseudocode
+
 # it seems like I need to start with a bunch of rules? so ill think about that
 #
-# OUR token types are Nymber, keyword, Identifier, Operator, Assignment, Comment, String, and END
+# OUR token types are
+# Nymber, keyword, Identifier, Operator, Assignment, Comment, String, and END
 #
 # With these rules Ill have ambiguity for certain I think
 
