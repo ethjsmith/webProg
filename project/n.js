@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var qs = require("querystring");
 // https://medium.com/@kiesp/playing-with-spotify-api-using-expressjs-bd8f25392ff3
 var SpotifyWebApi = require('spotify-web-api-node');
 scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private']
@@ -75,9 +75,35 @@ router.get('/register', async(req,res) => {
 
 });
 router.get('/create', async(req,res) => {
-  res.render('create.html', { title: 'Express' });
+  if (req.method == 'POST') {
+    var body="";
+    req.on('data', function (data) {
+      body += data;
+      if (body.length > 1e6)
+               request.connection.destroy();
+       });
 
-});
+       request.on('end', function () {
+           var post = qs.parse(body);
+           // use post['blah'], etc.
+
+       });
+    console.log(post['inp']);
+    }
+    res.render('create.html', { title: 'Express' });
+
+  });
+
+// Yeah dawg
+
+// router.post('/create', async(req,res) => {
+//   spotifyApi.searchTracks(req.)
+//   .then(function(data) {
+//     console.log('Search by "Love"', data.body);
+//   }, function(err) {
+//     console.error(err);
+//   });
+// });
 router.get('/saved2', async(req,res) => {
   res.render('saved.html', { title: 'Express' });
 

@@ -6,6 +6,7 @@
     "express": "^4.17.1",
     "nunjucks": "^3.2.3",
     "path": "^0.12.7",
+    "querystring": "^0.2.1",
     "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2"
   }
