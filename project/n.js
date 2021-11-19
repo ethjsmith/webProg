@@ -93,6 +93,33 @@ router.get('/create', async(req,res) => {
     res.render('create.html', { title: 'Express' });
 
   });
+router.post("/create", async(req,res) => {
+  var result = ""
+  spotifyApi.searchTracks(req.body.inp).then(
+    function(data) {
+      console.log("DATA recieved");
+      result=data.body;
+      console.log(result);
+      console.log("what is being passed in : ");
+      console.log(result.tracks);
+      rs = []
+      //for (i=0;i<data.body.length;i++) {
+      for (obj in data.body) {
+        //rs.push(data.body[i].id,data.body[i].name,data.body[i].preview_url)
+        console.log(obj.id);
+      }
+      console.log(rs);
+      res.render("searchresults.html",{results:result.tracks, title:"search results"});
+    },
+    function(err) {
+      console.log("error", err);
+      result = "ERROR OCCURED sadge"
+      res.render("create.html",{})
+    }
+  );
+
+  //res.redirect("/create");
+});
 
 // Yeah dawg
 

@@ -1,6 +1,6 @@
 var express = require('express');
 var nunjucks = require("nunjucks");
-
+var bodyparser = require("body-parser");
 var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
@@ -15,6 +15,7 @@ nunjucks.configure('views', {
 });
 app.use(express.static(__dirname + '/public'))
 .use(cors())
+.use(bodyparser.urlencoded({extended:true}))
 .use(cookieParser());
 app.set("view engine", "nunjucks")
 

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+results<br>
+{% for item in results %}
+{{ item.name }} <img src="{{item.url}}"> <a href="linky"> Create a list based on this entry</a><br>
+{% endfor %}
+
+
+{% endblock %}
