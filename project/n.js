@@ -21,6 +21,8 @@ router.get('/', function(req, res, next) {
   // else {
   //   req.user="Not Logged In"
   // }
+  // console.log(req);
+  // console.log(res);
   res.render('index.html', { title: 'Express' });
 });
 
@@ -62,12 +64,10 @@ router.get('/saved', async (req,res) => {
   try {
     var result = await spotifyApi.getUserPlaylists();
     console.log(result.body);
-    //res.status(200).send(result.body);
-    res.render("base.html",{contents:result.body});
+    res.render("saved.html",{lists:result.body});
   } catch (err) {
     res.status(400).send(err)
   }
-
 });
 
 router.get('/register', async(req,res) => {
