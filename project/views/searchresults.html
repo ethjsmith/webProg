@@ -3,7 +3,9 @@
 {% block content %}
 results<br>
 {% for item in results %}
-{{ item.name }} <img src="{{item.url}}"> <a href="linky"> Create a list based on this entry</a><br>
+<div class = "card">
+<h3>{{ item.name }}</h3> <img src="{{item.album.images[0].url}}" class='preview'><br> <a href="linky" class="smalla"> Create a list based on this entry</a><br>
+</div><br>
 {% endfor %}
 
 

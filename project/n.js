@@ -100,16 +100,17 @@ router.post("/create", async(req,res) => {
       console.log("DATA recieved");
       result=data.body;
       console.log(result);
-      console.log("what is being passed in : ");
-      console.log(result.tracks);
-      rs = []
-      //for (i=0;i<data.body.length;i++) {
-      for (obj in data.body) {
-        //rs.push(data.body[i].id,data.body[i].name,data.body[i].preview_url)
-        console.log(obj.id);
+      console.log(result.tracks.items);
+      if (result.tracks.items.length == 0) {
+        // no results found ,error :)
+        console.log("ERROR no tracks?")
+        res.render("base.html",{contents:"Error, no results returned"});
+      }else {
+
+        res.render("searchresults.html",{results:result.tracks.items, title:"search results"});
       }
-      console.log(rs);
-      res.render("searchresults.html",{results:result.tracks, title:"search results"});
+      //console.log(JSON.stringify(result.tracks.items, null, 2));
+
     },
     function(err) {
       console.log("error", err);
