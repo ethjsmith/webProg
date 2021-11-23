@@ -1,54 +1,124 @@
 var express = require('express');
+var session = require('express-session');
 var router = express.Router();
 var qs = require("querystring");
 // https://medium.com/@kiesp/playing-with-spotify-api-using-expressjs-bd8f25392ff3
 var SpotifyWebApi = require('spotify-web-api-node');
-scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private']
+
+// variables set up for new auth type
+var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'],
+redirectUri= 'http://localhost:8888/callback',
+clientId= "6048c6185d4941dbba9e5e61f4e57c44",
+state = "",
+showDialog= true,
+responseType= "code";
 // https://github.com/thelinmichael/spotify-web-api-node
 require('dotenv').config();
-
+// I think this should be declared within the function
+// var spotifyApi = new SpotifyWebApi({
+//   clientId: '6048c6185d4941dbba9e5e61f4e57c44',
+//   clientSecret: '9095881a9eae48179b801202372a135c',
+//   redirectUri: 'http://localhost:8888/callback',
+// });
 var spotifyApi = new SpotifyWebApi({
-  clientId: '6048c6185d4941dbba9e5e61f4e57c44',
+  redirectUri:redirectUri,
   clientSecret: '9095881a9eae48179b801202372a135c',
-  redirectUri: 'http://localhost:8888/callback',
+  clientId:clientId
 });
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  // if (typeof spotifyApi.getUser() !== "undefined" && spotifyApi.getUser()) {
-  //   req.user = spotifyApi.getUser()
-  // }
-  // else {
-  //   req.user="Not Logged In"
-  // }
-  // console.log(req);
-  // console.log(res);
   res.render('index.html', { title: 'Express' });
 });
 
+// middleware function to check if user is authenticated.
+// app.get('/protectedRoute', loggedIn, (req, res) => {
+function checklogin(req, res, next) {
+  if ("token" in req)  {
+    // check if it's still valid?
+    next();
+  } else {
+    res.redirect("/login");
+  }
+}
+// contruct a credential for a user? haha
+function constructCredentials(code) {
+  return creds = {
+    clientId:"",
+    clientSecret:"",
+    accessToken:""
+  };
+}
+
 router.get('/login', (req,res) => {
-  var html = spotifyApi.createAuthorizeURL(scopes)
-  console.log(html)
-  //res.send(html+"&show_dialog=true")
-  res.redirect(html)
-  //res.render('index.html', { title: 'Express' });
-})
+  res.redirect(spotifyApi.createAuthorizeURL(scopes));
+});
 
 router.get('/callback', async (req,res) => {
-  const { code } = req.query;
-  console.log("GOT THE CODE :) ")
-  console.log(code)
-  try {
-    var data = await spotifyApi.authorizationCodeGrant(code)
-    const { access_token, refresh_token } = data.body;
-    spotifyApi.setAccessToken(access_token);
-    spotifyApi.setRefreshToken(refresh_token);
+  //console.log(JSON.stringify(result.tracks.items, null, 2));
+    //ses = req.session;
+    var error = req.query.error;
+    var code = req.query.code;
+    var state = req.query.state;
+    res.cookie("code",code);
+    if (error) {
+   console.error('Callback Error:', error);
+   res.send(`Callback Error: ${error}`);
+   return;
+ }
+ spotifyApi
+    .authorizationCodeGrant(code)
+    .then(data => {
+      const access_token = data.body['access_token'];
+      const refresh_token = data.body['refresh_token'];
+      const expires_in = data.body['expires_in'];
 
-    res.redirect('http://localhost:8888');
-  } catch(err) {
-    res.redirect('/#/error/invalid token');
-  }
+      spotifyApi.setAccessToken(access_token);
+      spotifyApi.setRefreshToken(refresh_token);
+
+      console.log('access_token:', access_token);
+      console.log('refresh_token:', refresh_token);
+
+      console.log(
+        `Sucessfully retreived access token. Expires in ${expires_in} s.`
+      );
+
+      setInterval(async () => {
+        const data = await spotifyApi.refreshAccessToken();
+        const access_token = data.body['access_token'];
+
+        console.log('The access token has been refreshed!');
+        console.log('access_token:', access_token);
+        res.cookie("code",access_token);
+
+        spotifyApi.setAccessToken(access_token);
+      }, expires_in / 2 * 1000);
+    })
+    .catch(error => {
+      console.error('Error getting Tokens:', error);
+      res.send(`Error getting Tokens: ${error}`);
+    });
+  res.redirect("/");
 });
+    //var code2 = req.query.code;
+  //console.log(JSON.stringify(req.body,null,2));
+  //console.log("code2:" + code2);
+  // var creds = constructCredentials(code);
+//   spotifyApi.setAccessToken(code);
+//   // const { code } = req.query;
+//   // console.log("GOT THE CODE :) ")
+//   // console.log(code)
+//   // //try {
+//   //   var data = await spotifyApi.authorizationCodeGrant(code)
+//   //   const { access_token, refresh_token } = data.body;
+//   //   spotifyApi.setAccessToken(access_token);
+//   //   spotifyApi.setRefreshToken(refresh_token);
+//
+//     res.redirect('http://localhost:8888');
+//   // } catch(err) {
+//   //   console.log("ERROR LOL ");
+//   //   res.redirect('/#/error/invalid token');
+//   //}
+// });
 
 router.get('/userinfo', async (req,res) => {
     try {
@@ -61,13 +131,27 @@ router.get('/userinfo', async (req,res) => {
 });
 
 router.get('/saved', async (req,res) => {
-  try {
-    var result = await spotifyApi.getUserPlaylists();
-    console.log(result.body);
-    res.render("saved.html",{lists:result.body});
-  } catch (err) {
-    res.status(400).send(err)
-  }
+  console.log("code for auth:" + req.cookies["code"]);
+
+    var s = spotifyApi
+    .authorizationCodeGrant(req.cookies['code'])
+    .then(function(data) {
+      spotifyApi.setAccessToken(data.body['access_token']);
+      return spotifyApi.getUserPlaylists();
+    })
+    .then (function(data) {
+      console.log("successful retrival? " + data)
+      res.render("saved.html",{lists:data});
+
+    })
+    .catch(function(err) {
+      console.log("error lol" + err.message);
+    });
+
+
+    //var result = await spotifyApi.getUserPlaylists();
+    // console.log(result.body);
+    // res.render("saved.html",{lists:result.body});
 });
 
 router.get('/register', async(req,res) => {
