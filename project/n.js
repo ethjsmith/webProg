@@ -2,6 +2,7 @@ var express = require('express');
 var session = require('express-session');
 var router = express.Router();
 var qs = require("querystring");
+//var sess;
 // https://medium.com/@kiesp/playing-with-spotify-api-using-expressjs-bd8f25392ff3
 var SpotifyWebApi = require('spotify-web-api-node');
 
@@ -14,12 +15,7 @@ showDialog= true,
 responseType= "code";
 // https://github.com/thelinmichael/spotify-web-api-node
 require('dotenv').config();
-// I think this should be declared within the function
-// var spotifyApi = new SpotifyWebApi({
-//   clientId: '6048c6185d4941dbba9e5e61f4e57c44',
-//   clientSecret: '9095881a9eae48179b801202372a135c',
-//   redirectUri: 'http://localhost:8888/callback',
-// });
+
 var spotifyApi = new SpotifyWebApi({
   redirectUri:redirectUri,
   clientSecret: '9095881a9eae48179b801202372a135c',
@@ -27,6 +23,7 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 router.get('/', function(req, res, next) {
+  sess = req.session;
   res.render('index.html', { title: 'Express' });
 });
 
@@ -72,6 +69,9 @@ router.get('/callback', async (req,res) => {
       const refresh_token = data.body['refresh_token'];
       const expires_in = data.body['expires_in'];
 
+      req.session.access = access_token;
+      req.session.refresh = refresh_token;
+
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
 
@@ -89,7 +89,6 @@ router.get('/callback', async (req,res) => {
         console.log('The access token has been refreshed!');
         console.log('access_token:', access_token);
         res.cookie("code",access_token);
-
         spotifyApi.setAccessToken(access_token);
       }, expires_in / 2 * 1000);
     })
@@ -149,11 +148,21 @@ router.get('/saved', async (req,res) => {
     });
 
 
+
     //var result = await spotifyApi.getUserPlaylists();
     // console.log(result.body);
     // res.render("saved.html",{lists:result.body});
 });
-
+router.get('/me', async(req,res) => {
+  // console.log("access token currently:");
+  // console.log(req.cookies["access_token"]);
+  console.log(req.session.access);
+  spotifyApi.setAccessToken(req.session.access);
+  spotifyApi.setRefreshToken(req.session.refresh);
+  var result = await spotifyApi.getMe()
+  console.log()
+  res.redirect("/");
+});
 router.get('/register', async(req,res) => {
   res.render('register.html', { title: 'Express' });
 
