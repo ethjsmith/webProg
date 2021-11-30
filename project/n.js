@@ -98,26 +98,6 @@ router.get('/callback', async (req,res) => {
     });
   res.redirect("/");
 });
-    //var code2 = req.query.code;
-  //console.log(JSON.stringify(req.body,null,2));
-  //console.log("code2:" + code2);
-  // var creds = constructCredentials(code);
-//   spotifyApi.setAccessToken(code);
-//   // const { code } = req.query;
-//   // console.log("GOT THE CODE :) ")
-//   // console.log(code)
-//   // //try {
-//   //   var data = await spotifyApi.authorizationCodeGrant(code)
-//   //   const { access_token, refresh_token } = data.body;
-//   //   spotifyApi.setAccessToken(access_token);
-//   //   spotifyApi.setRefreshToken(refresh_token);
-//
-//     res.redirect('http://localhost:8888');
-//   // } catch(err) {
-//   //   console.log("ERROR LOL ");
-//   //   res.redirect('/#/error/invalid token');
-//   //}
-// });
 
 router.get('/userinfo', async (req,res) => {
     try {
@@ -146,17 +126,10 @@ router.get('/saved', async (req,res) => {
     .catch(function(err) {
       console.log("error lol" + err.message);
     });
-
-
-
-    //var result = await spotifyApi.getUserPlaylists();
-    // console.log(result.body);
-    // res.render("saved.html",{lists:result.body});
 });
 router.get('/me', async(req,res) => {
-  // console.log("access token currently:");
-  // console.log(req.cookies["access_token"]);
   console.log(req.session.access);
+  console.log(req.sess);
   spotifyApi.setAccessToken(req.session.access);
   spotifyApi.setRefreshToken(req.session.refresh);
   var result = await spotifyApi.getMe()
