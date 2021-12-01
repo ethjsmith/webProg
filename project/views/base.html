@@ -18,18 +18,21 @@ Date: Oct 4, 2021
       </svg><br>
       <nav>
 	  	<div class="nava">
-        <a href="/me"> test </a>
-			<a href = "/">Home </a>
-			<a href = "login">Login</a>
-			<a href = "register">Register</a>
-			<a href = "create">Create a list !</a>
-			<a href = "saved"> Your lists</a>
-			<a href = "about">About the site</a>
-      <a href = "test">       Name: {{ req.name }}</a>
-			<br>
-      <a href="logout"> Logout </a>
-		</div>
+      <a href="/me" class='l'>test </a>
+			<a href = "/" class='l'>Home </a>
+			<!--<a href = "register">Register</a> No more registration LLLLLL-->
+			<a href = "create" class='l'>Create a list !</a>
+			<a href = "saved" class='l'> Your lists</a>
+			<a href = "about" class='l'>About the site</a>
+      {% if n %}
+      <a href = "logout" class='r'>Name: {{ name }}</a>
+      <a href="logout" class='r'> Logout </a>
+      {% else %}
+      <a href = "login" class='r'>Name: {{name}}</a>
+      <a href = "login" class='r'>Login</a>
+      {% endif %}
       <br>
+		</div><br>
 	  </nav>
 	  <br>
       <main>

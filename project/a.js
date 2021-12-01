@@ -35,12 +35,20 @@ app.use(express.static(__dirname + '/public'))
     saveUninitialized: false,
     resave: false,
 }))
-.use(cookieParser());
+.use(cookieParser())
+.use(function(req,res,next) { // use this middleware to set variables that all templates have : )
+  if (typeof req.session == undefined) {
+    req.session.name = 'Not logged in';
+  }
+  res.locals.name = req.session.name;
+  res.locals.n = req.session.n;
+  console.log(res.locals);
+  console.log(req.session);
+  next();
+});
 
 app.set("view engine", "nunjucks")
-//var aa = require("./n")
 
-//var sess;
 var SpotifyWebApi = require('spotify-web-api-node');
 
 // variables set up for new auth type
@@ -59,29 +67,29 @@ var spotifyApi = new SpotifyWebApi({
   clientId:clientId
 });
 function setname(req, res) {
-  if (req.session.access)  {
-    req.session.name = "USER(TEMP)"
+  if (typeof req.session !== undefined || req.session != null)  {
+    res.locals.name = req.session.name; //reset this for if it's called after the middleware? // I don't think this is good practice, I need some artitecture for this spagehtti mess lol
+    //req.session.n= 1;
   }else {
     req.session.name = "Not Logged In"
+    res.session.n = undefined;
   }
 }
 function checklogin(req, res) {
   if (req.session.access && req.session.refresh)  {
-    console.log("login set, continue");
+    //console.log("login set, continue");
     spotifyApi.setAccessToken(req.session.access);
     spotifyApi.setRefreshToken(req.session.refresh);
     return true;
   } else {
-    console.log("not logged in");
-    //res.render('base.html', { contents: 'Please log in! ' });
+    //console.log("not logged in");
     return false;
-    //return res.redirect("/login");
   }
 }
 
 router.get('/', function(req, res, next) {
   //sess = req.session;
-  res.render('index.html', { title: 'Express' ,name:req.session.name});
+  res.render('index.html', { title: 'Home' });
 });
 
 router.get('/login', (req,res) => {
@@ -109,29 +117,33 @@ router.get('/callback', async (req,res) => {
 
       req.session.access = access_token;
       req.session.refresh = refresh_token;
-      console.log(req.session.access);
-      console.log("set the token to the above");
+      // console.log(req.session.access);
+      // console.log("set the token to the above");
 
 
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
 
-      console.log('access_token:', access_token);
-      console.log('refresh_token:', refresh_token);
-
-      console.log(
-        `Sucessfully retreived access token. Expires in ${expires_in} s.`
-      );
+      // console.log('access_token:', access_token);
+      // console.log('refresh_token:', refresh_token);
+      //
+      // console.log(
+      //   `Sucessfully retreived access token. Expires in ${expires_in} s.`
+      // );
 
       setInterval(async () => {
         const data = await spotifyApi.refreshAccessToken();
         const access_token = data.body['access_token'];
 
-        console.log('The access token has been refreshed!');
-        console.log('access_token:', access_token);
+        // console.log('The access token has been refreshed!');
+        // console.log('access_token:', access_token);
         res.cookie("code",access_token);
         spotifyApi.setAccessToken(access_token);
       }, expires_in / 2 * 1000);
+    })
+    await spotifyApi.getMe().then(function(data){ // set your username?
+      req.session.name = data.body.display_name;
+      req.session.n= 1;
     })
     //var result = await spotifyApi.getMe()
     .catch(error => {
@@ -140,7 +152,7 @@ router.get('/callback', async (req,res) => {
     });
   console.log(req.session.access);
   setname(req,res);
-  res.render('index.html', { title: 'logged in' });
+  res.render('index.html', { title: 'Logged in!'});
 });
 
 router.get('/userinfo', async (req,res) => {
@@ -153,10 +165,13 @@ router.get('/userinfo', async (req,res) => {
     }
 });
 // this might work haha ?
-router.get('/logout' , async (req,res) => {
-  req.session.destroy();
-  //req.session.name="Not Logged In";
-  res.render("base.html",{contents:"Successfully logged out! "});
+router.get('/logout' , async (req,res) => { // I don't think this is good
+  req.session.access=undefined;
+  req.session.refresh=undefined;
+  req.session.name="Not Logged In";
+  req.session.n=undefined;
+  setname(req,res);
+  res.render("base.html",{ title: 'Logged out!' ,contents:"You've successfully logged out! now get tf outta here "});
 });
 
 router.get('/saved', async (req,res) => {
@@ -168,7 +183,7 @@ router.get('/saved', async (req,res) => {
   .then (function(data) {
       console.log("successful retrival? " + data)
       console.log(JSON.stringify(data.body.items, null, 2));
-      res.render("saved.html",{lists:data.body});
+      res.render("saved.html",{lists:data.body });
     })
     .catch(function(err) {
       console.log("error lol" + err.message);
@@ -190,6 +205,10 @@ router.get('/register', async(req,res) => {
 
 });
 router.get('/create', async(req,res) => {
+  var x = checklogin(req,res);
+  if (!x){ // if not logged in get kicked to a login page, otherwise actually do the stuff in this route... this is ghetto ... LOL
+    res.render('base.html', { contents: 'Please log in! ' });
+  } else {
   if (req.method == 'POST') {
     var body="";
     req.on('data', function (data) {
@@ -207,7 +226,7 @@ router.get('/create', async(req,res) => {
     }
     res.render('create.html', { title: 'Express' });
 
-  });
+  }});
 router.post("/create", async(req,res) => {
   var result = ""
   spotifyApi.searchTracks(req.body.inp).then(
@@ -230,28 +249,25 @@ router.post("/create", async(req,res) => {
     function(err) {
       console.log("error", err);
       result = "ERROR OCCURED sadge"
-      res.render("create.html",{})
+      res.render("base.html",{contents:result})
     }
   );
 
   //res.redirect("/create");
 });
+// the meat of what the app promised ... :)
+router.get("/linky"m async(req,res) => {
+
+});
 router.get('/saved2', async(req,res) => {
   res.render('saved.html', { title: 'Express' });
 
 });
-router.get('/about', async(req,res) => {
+router.get('/about', async(req,res) => { // very important route, contains a majority of my points... :(
   res.render('about.html', { title: 'Express' });
 
 });
-router.get('/test', async(req,res) => {
-  res.render('index.html', { title: 'Express' });
-
-});
-
-
-//module.exports = router;
-
+// hosts the server lol
 app.use(router)
 app.listen(8888, () => {
   console.log(`Listening to requests on http://localhost:8888`);
