@@ -37,7 +37,7 @@ app.use(express.static(__dirname + '/public'))
 }))
 .use(cookieParser())
 .use(function(req,res,next) { // use this middleware to set variables that all templates have : )
-  if (typeof req.session == undefined) {
+  if (typeof req.session == undefined || req.session == null) {
     req.session.name = 'Not logged in';
   }
   res.locals.name = req.session.name;
@@ -53,7 +53,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 // variables set up for new auth type
 var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'],
-redirectUri= 'http://localhost:8888/callback',
+redirectUri= 'http://134.250.79.116:8888/callback',
 clientId= "6048c6185d4941dbba9e5e61f4e57c44",
 state = "",
 showDialog= true,
@@ -105,8 +105,8 @@ router.get('/callback', async (req,res) => {
     res.cookie("code",code);
     if (error) {
    console.error('Callback Error:', error);
-   res.send(`Callback Error: ${error}`);
-   return;
+   //res.send(`Callback Error: ${error}`);
+   //return;
  }
  await spotifyApi
     .authorizationCodeGrant(code)
@@ -124,8 +124,8 @@ router.get('/callback', async (req,res) => {
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
 
-      // console.log('access_token:', access_token);
-      // console.log('refresh_token:', refresh_token);
+      console.log('access_token:', access_token);
+      console.log('refresh_token:', refresh_token);
       //
       // console.log(
       //   `Sucessfully retreived access token. Expires in ${expires_in} s.`
@@ -137,7 +137,7 @@ router.get('/callback', async (req,res) => {
 
         // console.log('The access token has been refreshed!');
         // console.log('access_token:', access_token);
-        res.cookie("code",access_token);
+        //res.cookie("code",access_token);
         spotifyApi.setAccessToken(access_token);
       }, expires_in / 2 * 1000);
     })
@@ -150,8 +150,8 @@ router.get('/callback', async (req,res) => {
       console.error('Error getting Tokens:', error);
       res.send(`Error getting Tokens: ${error}`);
     });
-  console.log(req.session.access);
-  setname(req,res);
+  //console.log(req.session.access);
+  //setname(req,res);
   res.render('index.html', { title: 'Logged in!'});
 });
 
@@ -256,10 +256,53 @@ router.post("/create", async(req,res) => {
   //res.redirect("/create");
 });
 // the meat of what the app promised ... :)
-router.get("/linky"m async(req,res) => {
+router.get("/linky", async(req,res) => {
+  var x= checklogin(req,res);
+  if (!x){ // if not logged in get kicked to a login page, otherwise actually do the stuff in this route... this is ghetto ... LOL
+    res.render('base.html', { contents: 'Please log in! ' });
+  } else {
+  var id = req.query.id;
+  var type = req.query.type; // what is being passed in ?
+  songs = [] // start adding songs to a list, and add that to a palylist at the end...
+  // from this, we have some things to do
+  var r
+  await spotifyApi.getArtist(id).then(function(data) {
+    //console.log("artist", data.body);
+    return data.body.id;
+  })
+  .then(function (artistid) {
+    return spotifyApi.getArtistTopTracks(artistid,"US") // hmm I guess this only works in the US for now ? or track rating from the US? Idk how this works
+  })
+  .then(function (data) {
+    for (track in data.body.tracks) {
+      console.log(data.body.tracks[track])
+      songs.push(data.body.tracks[track].id);
+    }
+    //console.log(data.body);
+  });
 
+// now we can getartistalbums or
+// getartistrelatedtoartist
+// getartisttoptracks
+
+// getAlbumTracks
+  // get similar songs  ( by genere)
+  // flow is ->
+
+  // get similar songs ( from same artist)
+  // flow is -> artist -> ger artists related to artist -> top(?) songs
+
+  // get similar songs ( something with the seeding setting? )
+
+  //recommendations based on seeds
+  // genre seeds ? ?? idk what this is
+
+  //spotifyApi.createPlaylist
+  res.render('base.html',{title:"playlist created",contents:songs})
+  }
 });
 router.get('/saved2', async(req,res) => {
+
   res.render('saved.html', { title: 'Express' });
 
 });
@@ -269,6 +312,6 @@ router.get('/about', async(req,res) => { // very important route, contains a maj
 });
 // hosts the server lol
 app.use(router)
-app.listen(8888, () => {
+app.listen(8888, "0.0.0.0", () => {
   console.log(`Listening to requests on http://localhost:8888`);
 });
