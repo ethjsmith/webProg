@@ -54,7 +54,8 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 // variables set up for new auth type
 var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'],
-redirectUri= 'http://134.250.79.116:8888/callback',
+//redirectUri= 'http://134.250.79.116:8888/callback',
+redirectUri = "http://localhost:8888/callback"
 clientId= "6048c6185d4941dbba9e5e61f4e57c44",
 state = "",
 showDialog= true,
@@ -259,13 +260,13 @@ router.post("/create", async(req,res) => {
 // the meat of what the app promised ... :)
 
 async function getSongs(art) { // takes artist id
-    songs = []
+    songys = []
     console.log(art);
     spotifyApi.getArtistTopTracks(art,"US").then(function (data) {
       console.log(data)
       for (track in data.body.tracks) {
          console.log(data.body.tracks[track])
-         songs.push("spotify:track:" + data.body.tracks[track].id); // idk if this syntax is correct : )
+         songys.push("spotify:track:" + data.body.tracks[track].id); // idk if this syntax is correct : )
        }
      });
   return songs
@@ -280,9 +281,11 @@ router.get("/linky", async(req,res) => {
   var type = req.query.type; // what is being passed in ?
   songs = [] // start adding songs to a list, and add that to a palylist at the end...
   artists = [] // MOOOORE
+  allsongs = []
   // from this, we have some things to do
   var r
   var artist
+  var artistz
   // await spotifyApi.getArtist(id).then(function(data) {
   //   //console.log("artist", data.body);
   //   artist = data.body.name;
@@ -297,20 +300,56 @@ router.get("/linky", async(req,res) => {
   //     songs.push("spotify:track:" + data.body.tracks[track].id); // idk if this syntax is correct : )
   //   }
     //console.log(data.body);
+    await spotifyApi.getArtist(id).then(function(data) { // get the artist from the song passed in
+      artist = data.body.name;
+      console.log(artist);
+      newid = data.body.id;
+      return data.body.id;
+    }).then (function(data) {
+      spotifyApi.getArtistRelatedArtists(data).then(function(data) {
+        myids = []
+        console.log("YEAH NOT HERE BABY ")
+        console.log(data.body)
+        for (arz in data.body.artists) {
+          myids.push(data.body.artists[arz].id)
+        }
+        artistz = myids
+        return myids
+      });
+    })
+    .then(function (data) {
+      console.log("newid::  " + newid);
+      songs = getSongs(newid);
+      allsongs = allsongs.concat(songs);
+      for ( idd in artistz) {
+        console.log("idd" + id)
+        songs = getSongs(idd);
+        allsongs = allsongs.concat(songs);
 
-  //   artists = await spotifyApi.getArtistRelatedArtists(artist).
+        console.log(allsongs);
+        res.render('base.html',{title:"playlist created",contents:songs})
+      }
+    })
+
+
+
+     // var artistz = await spotifyApi.getArtistRelatedArtists(artist).then(function(data) {
+     //   myids = []
+     //   console.log("YEAH NOT HERE BABY ")
+     //   console.log(data.body)
+     //   for (arz in data.body.artists) {
+     //     myids.push(data.body.artists[arz].id)
+     //   }
+     //   return myids
+     // });
+
+  //   songs = songs.concat(await getSongs(id));
   //   then(function(data) {
   //     console.log(data.body);
   //     // I should make a function that gets songs from an artist
   //   })
   //
   // });
-  var newid = await spotifyApi.getArtist(id).then(function(data) { // get the artist from the song passed in
-    artist = data.body.name;
-    return data.body.id;
-  })
-  console.log("newid::  " + newid);
-  songs = await getSongs(newid);
 
 
 
@@ -351,7 +390,6 @@ router.get("/linky", async(req,res) => {
   // genre seeds ? ?? idk what this is
 
   //spotifyApi.createPlaylist
-  res.render('base.html',{title:"playlist created",contents:songs})
   }
 });
 router.get('/saved2', async(req,res) => {
