@@ -39,4 +39,15 @@
               <circle cx="50" cy="50" r="40" stroke = "black" stroke-width="3" fill="green"/>
               <text x="20" y="40" fill = "black" transform="rotate(30,20,40)"> Playlister!</text>
           </svg>
+          <form>
+            <label for="inp">Leave a comment:</label>
+            <input type="text" id="inp" name="inp">
+
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+          </form>
+          <h4> Comments: </h4>
+          {% for c in comments %}
+          {{c.dt}}<br>
+          {% endfor %}
         {% endblock %}

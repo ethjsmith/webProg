@@ -8,12 +8,13 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var sqlite3 = require('sqlite3').verbose();
 
 //var express = require('express');
 //var session = require('express-session');
 var router = express.Router();
 var qs = require("querystring");
-
+let db = new sqlite3.Database('comments.db');
 
 let RedisStore = require('connect-redis')(session);
 var client  = redis.createClient();
@@ -322,9 +323,50 @@ router.get('/saved2', async(req,res) => {
   res.render('saved.html', { title: 'Express' });
 
 });
-router.get('/about', async(req,res) => { // very important route, contains a majority of my points... :(
-  res.render('about.html', { title: 'About' });
+async function db_all(query){
+    return new Promise(function(resolve,reject){
+        db.all(query, function(err,rows){
+           if(err){return reject(err);}
+           resolve(rows);
+         });
+    });
+}
+async function getdata() {
+  results = []
+  await db.serialize( function() {
+     db.all("SELECT dt FROM comments", async(err,row) => {
+       console.log("select returned:" + row.dt);
+       results.row
+     });
+   });
+   return results
+}
 
+router.get('/about', async(req,res) => { // very important route, contains a majority of my points... :(
+   results = await db_all("SELECT dt FROM comments")
+
+    console.log(results);
+    res.render('about.html', { title: 'About' ,comments: results});
+});
+
+router.post('/about', function(req,res){
+   db.serialize(()=> {
+    db.prepare("INSERT INTO comments(dt) VALUES (?)");
+    db.run(req.body.inp);
+    console.log("added comment:" + req.body.inp);
+  });
+  results = []
+   db.serialize(function() {
+    db.all("SELECT dt FROM comments", function(err,row) {
+      console.log("comment:" + row.dt);
+      results.push(row.dt);
+    });
+
+
+  });
+  console.log("results:" + results);
+  res.locals.comments = results
+  res.render('about.html', { title: 'About' ,comments: results});
 });
 router.get('/tech', async(req,res) => {
   res.render('tech.html',{title:"Technologies used"})
