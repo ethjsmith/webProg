@@ -1,12 +1,12 @@
 body {
 	background-color:#1DB954;
+	font-family: 'Ubuntu', sans-serif;
 }
 #realbody {
 	/*background-color:#FEFEFE;*/
 	width:60%;
 	margin:auto;
 	padding:10px;
-	font-family:sans-serif;
 	/*height:100vh;*/
 }
 .nava {
@@ -25,6 +25,7 @@ main {
 a {
 	text-decoration:none;
 	color:#0A0A0A;
+	font-family: 'Ubuntu', sans-serif;
 }
 nav {
 	width:60%;
@@ -33,6 +34,7 @@ nav {
 	padding:10px;
 }
 nav a{
+	font-family: 'Ubuntu', sans-serif;
 	background-color:#c7c7c7;
 	padding:10px;
 }

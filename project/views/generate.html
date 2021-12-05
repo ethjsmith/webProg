@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Playlist generated! </h1> <br>
+{% for song in results %}
+<div class = "l card">
+<img src="{{song.img}}"class='l preview'><p class = "l"> {{song.name}} by {{song.artist}}</p>
+<!--{% if song.preview %} This is cool, but too heavy on page load LOL, even the above stuff is pretty rough
+<audio controls class="r"><source src="{{item.preview}}"> </audio><br>
+{% else %}
+No preview available :(<br>
+{% endif %}-->
+<br></div><br>
+{% endfor %}
+
+
+{% endblock %}

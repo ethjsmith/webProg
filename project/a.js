@@ -1,25 +1,18 @@
 var express = require('express');
-const redis = require('redis');
-
 var nunjucks = require("nunjucks");
 var bodyparser = require("body-parser");
-var request = require('request'); // "Request" library
+var request = require('request');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var sqlite3 = require('sqlite3').verbose();
 
-//var express = require('express');
-//var session = require('express-session');
 var router = express.Router();
 var qs = require("querystring");
 let db = new sqlite3.Database('comments.db');
 
-let RedisStore = require('connect-redis')(session);
-var client  = redis.createClient();
-//client.on('error', console.error)
-//client.connect();
+
 const app = express();
 
 nunjucks.configure('views', {
@@ -31,8 +24,6 @@ app.use(express.static(__dirname + '/public'))
 .use(bodyparser.urlencoded({extended:true}))
 .use(session({
     secret: 'TEMPlol91823810',
-    // create new redis store.
-    //store: new RedisStore({client:client}),
     saveUninitialized: false,
     resave: false,
 }))
@@ -153,7 +144,7 @@ router.get('/callback', async (req,res) => {
       res.send(`Error getting Tokens: ${error}`);
     });
   //console.log(req.session.access);
-  //setname(req,res);
+  await setname(req,res);
   res.render('index.html', { title: 'Logged in!'});
 });
 
@@ -172,7 +163,7 @@ router.get('/logout' , async (req,res) => { // I don't think this is good
   req.session.refresh=undefined;
   req.session.name="Not Logged In";
   req.session.n=undefined;
-  setname(req,res);
+  await setname(req,res);
   res.render("base.html",{ title: 'Logged out!' ,contents:"You've successfully logged out! now get tf outta here "});
 });
 
@@ -261,15 +252,55 @@ router.post("/create", async(req,res) => {
 
 async function getSongs(art) { // takes artist id
     songys = []
-    console.log(art);
-    spotifyApi.getArtistTopTracks(art,"US").then(function (data) {
+    //console.log(art);
+    await spotifyApi.getArtistTopTracks(art,"US").then(function (data) {
       console.log(data)
       for (track in data.body.tracks) {
-         console.log(data.body.tracks[track])
-         songys.push("spotify:track:" + data.body.tracks[track].id); // idk if this syntax is correct : )
+         //console.log(data.body.tracks[track])
+         s = data.body.tracks[track]
+         item = {
+           id:"spotify:track:" + s.id, // I don't know if this is required...
+           name:s.name,
+           artist:s.artists[0].name,
+           img:s.album.images[0].url,
+           preview:s.preview_url
+         }
+         //songys.push("spotify:track:" + data.body.tracks[track].id); // idk if this syntax is correct : )
+         songys.push(item);
        }
      });
-  return songs
+  return songys
+}
+function chunkArray(array, chunkSize) { // chunk the array so that it can be passed into the playlist creation method
+  return Array.from(
+    { length: Math.ceil(array.length / chunkSize) },
+    (_, index) => array.slice(index * chunkSize, (index + 1) * chunkSize)
+  );
+}
+function shuffle(array) { // thanks internet for the shuffle
+  let currentIndex = array.length,  randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+async function getallartists(r) {
+  artys = []
+  var x = await spotifyApi.getArtistRelatedArtists(r).then(function (data) {
+    console.log("IN THE FUNCIOTNA")
+    console.log(data)
+    for (ar in data.body.artists) {
+      artys.push(data.body.artists[ar].id);
+    }
+
+  })
+  console.log("all the artists :) ")
+  console.log(artys)
+  return artys;
+
 }
 
 router.get("/linky", async(req,res) => {
@@ -305,31 +336,46 @@ router.get("/linky", async(req,res) => {
       console.log(artist);
       newid = data.body.id;
       return data.body.id;
-    }).then (function(data) {
-      spotifyApi.getArtistRelatedArtists(data).then(function(data) {
-        myids = []
-        console.log("YEAH NOT HERE BABY ")
-        console.log(data.body)
-        for (arz in data.body.artists) {
-          myids.push(data.body.artists[arz].id)
-        }
-        artistz = myids
-        return myids
-      });
-    })
-    .then(function (data) {
-      console.log("newid::  " + newid);
-      songs = getSongs(newid);
-      allsongs = allsongs.concat(songs);
-      for ( idd in artistz) {
-        console.log("idd" + id)
-        songs = getSongs(idd);
-        allsongs = allsongs.concat(songs);
-
-        console.log(allsongs);
-        res.render('base.html',{title:"playlist created",contents:songs})
-      }
-    })
+    }).then (async(data)=> { // get related artists
+      x = await getallartists(data)// var x = await spotifyApi.getArtistRelatedArtists(data)
+      console.log("REALTED artist data")
+      console.log(data);
+      return x
+    }).then(function(data) { // add those related artists
+      console.log("related artists")
+      console.log(data)
+        return data
+      }).then(async (data) => {
+            console.log("main artist id::  " + newid);
+            songs = await getSongs(newid); // get the songs from the OG arist
+            allsongs = allsongs.concat(songs);
+            console.log("ARTISTS: " + data)
+            for (element of data) {
+              songs = await getSongs(element); // get songs from the related artist
+              allsongs = allsongs.concat(songs);
+            }
+            // data.forEach(async element => {
+            //   songs = await getSongs(element); // get songs from the related artist
+            //   allsongs = allsongs.concat(songs);
+            // })
+            console.log("I should have all the songs now : )?? ")
+            // for ( idd in artistz) {
+            //   console.log("idd" + id)
+            //   songs = await getSongs(artistz[idd]); // get songs from the related artist
+            //   allsongs = allsongs.concat(songs);
+            //
+            // }
+          return allsongs
+        }).then (async(data)=> {
+            await data;
+            await allsongs;
+            console.log(allsongs);
+            console.log(data);
+            allsongs = shuffle(allsongs);
+            console.log("SENDING THE MF THING");
+            res.locals.results = allsongs; // I hope I don't have to do some shit here
+            res.render('generate.html',{title:"playlist created"}) //heyheyhey
+          })
 
 
 
@@ -352,7 +398,7 @@ router.get("/linky", async(req,res) => {
   // });
 
 
-
+  // TODO break this into a separate view :)
   // var lz;
   // await spotifyApi.createPlaylist(artist + " playlist", { 'description': 'playlist generated by playlister!!' , 'public': true })
   //   .then(function(data) {
@@ -362,7 +408,14 @@ router.get("/linky", async(req,res) => {
   //   }, function(err) {
   //     console.log('Something went wrong!', err);
   //   });
-  //   await spotifyApi.addTracksToPlaylist(lz, songs)
+  //   allsongs = allsongs.sort();
+  //   var chunks = chunkArray(allsongs,50);
+  //   for (var chunk of chunks) {
+  //     await spotifyApi.addTracksToPlaylist(lz,chunk);
+  //   }
+
+
+  //   await spotifyApi.addTracksToPlaylist(lz, allsongs)
   // .then(function(data) {
   //   console.log('Added tracks to playlist!');
   // }, function(err) {
@@ -396,6 +449,13 @@ router.get('/saved2', async(req,res) => {
 
   res.render('saved.html', { title: 'Express' });
 
+});
+router.get("/generated", async(req,res) => {
+  // get and render the song informaiton :)
+
+
+  //button to turn this into a playlist :^ )
+  res.render("base.html", {title:"Playlist results"})
 });
 async function db_all(query){ // function with promise so that database data is waited for :)
     return new Promise(function(resolve,reject){
