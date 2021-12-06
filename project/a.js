@@ -217,7 +217,7 @@ router.get('/create', async(req,res) => {
        });
     console.log(post['inp']);
     }
-    res.render('create.html', { title: 'Express' });
+    res.render('create.html', { title: 'Search for a song' });
 
   }});
 router.post("/create", async(req,res) => {
@@ -308,6 +308,8 @@ router.get("/linky", async(req,res) => {
   if (!x){ // if not logged in get kicked to a login page, otherwise actually do the stuff in this route... this is ghetto ... LOL
     res.render('base.html', { contents: 'Please log in! ' });
   } else {
+    try {
+
   var id = req.query.id;
   var type = req.query.type; // what is being passed in ?
   songs = [] // start adding songs to a list, and add that to a palylist at the end...
@@ -390,12 +392,13 @@ router.get("/linky", async(req,res) => {
               }).then(function (data) {
                 var chunks = chunkArray(allsongs,50);
 
-                for (var chunk of chunks) {
+                for (var chunk of chunks) { // hmmmm
                   ids = []
                   for (var i of chunk) {
-                    console.log("chunk::" + i.id);
+                    //console.log("chunk::" + i.id);
                     ids.push(i.id)
                   }
+                  console.log(ids) // pushing these ids 
                   spotifyApi.addTracksToPlaylist(lz,ids);
                 } //heyheyhey
               })
@@ -455,7 +458,11 @@ router.get("/linky", async(req,res) => {
   // genre seeds ? ?? idk what this is
 
   //spotifyApi.createPlaylist
-  }
+} catch (e)
+{
+  console.log("some error LMFAO LLLLLLLLL");
+  res.render('generate.html',{title:"sample playlist created"})
+  }}
 });
 // router.get('/final', async(req,res) => {
 //   //TODO break this into a separate view :)
@@ -479,12 +486,12 @@ router.get("/linky", async(req,res) => {
 //       await spotifyApi.addTracksToPlaylist(lz,chunk);
 //     }
 //   res.render('generate.html',{title:"playlist created"}) //heyheyhey
-// })
-router.get('/saved2', async(req,res) => {
-
-  res.render('saved.html', { title: 'Express' });
-
-});
+// // })
+// router.get('/saved2', async(req,res) => {
+//
+//   res.render('saved.html', { title: 'Express' });
+//
+// });
 router.get("/generated", async(req,res) => {
   // get and render the song informaiton :)
 

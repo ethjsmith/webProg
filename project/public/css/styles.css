@@ -20,6 +20,18 @@ input[type=reset]:hover{
 	color:grey;
 	cursor: pointer;
 }
+.b{
+	border: 1px solid lightgrey;
+}
+.ll{
+margin:0:auto;
+}
+.clearfix::after {
+   content: " ";
+   display: block;
+   height: 0;
+   clear: both;
+}
 body {
 	background-color:#DDDDDD;
 	/*background-color: #012456;*/
@@ -97,9 +109,13 @@ main {
 	border: 1px solid lightgrey;
   font-family: 'Inconsolata', monospace;}
 	main a{
+		text-decoration:none;
+		cursor: pointer;
 		color:yellow;
 	}
-	main a:visited {
+	main a:hover {
+		text-decoration:none;
+		cursor: pointer;
 		color:Grey;
 	}
 
