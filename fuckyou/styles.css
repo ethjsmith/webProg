@@ -1,0 +1,10 @@
+.container {
+    display: inline-grid; 
+    flex-wrap: wrap;
+    grid-auto-flow: column;
+  }
+  
+  .cell {
+    flex-grow: 0.25;
+    border: 1px solid;
+  }
