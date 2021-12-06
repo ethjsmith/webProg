@@ -5,7 +5,7 @@
 results<br>
 {% for item in results %}
   <div class = "card">
-  <h3>{{ item.name }}</h3> <img src="{{item.album.images[0].url}}" class='preview'><br> <a id ="{{item.album.artists[0].id}}" href="linky?id={{item.album.artists[0].id}}&type={{item.id}}"> Create a list based on this entry</a><br>
+  {{ item.name }} <img src="{{item.album.images[0].url}}" class='preview'><br> <a id ="{{item.album.artists[0].id}}" href="linky?id={{item.album.artists[0].id}}&type={{item.id}}"> Create a list based on this entry</a><br>
   {% if item.preview_url%}
     <audio controls><source src="{{item.preview_url}}"> </audio>
   {% else %}
