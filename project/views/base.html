@@ -12,35 +12,42 @@ Date: Oct 4, 2021
     		<link rel="stylesheet" type="text/css" href="css/styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&family=Ubuntu:wght@300&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
     </head>
     <body>
-      <svg height = "100" width="100" viewBox="0 0 100 100" style="position:absolute">
+      <!--<svg height = "100" width="100" viewBox="0 0 100 100" style="position:absolute">
         <circle cx="50" cy="50" r="40" stroke = "black" stroke-width="3" fill="green"/>
         <text x="20" y="40" fill = "black" transform="rotate(30,20,40)"> Playlister!</text>
-      </svg><br>
+      </svg><br>-->
       <nav>
 	  	<div class="nava">
-      <a href="/me" class='l'>test </a>
-			<a href = "/" class='l'>Home </a>
-			<!--<a href = "register">Register</a> No more registration LLLLLL-->
-			<a href = "create" class='l'>Create a list !</a>
-			<a href = "saved" class='l'> Your lists</a>
-			<a href = "about" class='l'>About the site</a>
-      <a href = "tech" class='l'>Technologies used </a>
-      {% if n %}
-      <a href = "logout" class='r'>Name: {{ name }}</a>
-      <a href="logout" class='r'> Logout </a>
-      {% else %}
-      <a href = "login" class='r'>Name: {{name}}</a>
-      <a href = "login" class='r'>Login</a>
-      {% endif %}
+        <div class="controller">          <img src="/images/map.png" style="width:20px;">
+ Navigation menu   <div class="r">-&emsp; ▢&emsp; X</div></div>
+      <!--<div><a href="/me" class='l'>test </a></div>-->
+			<div><a href = "/" class='l'>Home </a></div><br>
+			<!--<div><a href = "register">Register</a></div> No more registration LLLLLL-->
+			<div><a href = "create" class='l'>Create a list !</a></div><br>
+			<div><a href = "saved" class='l'> Your lists</a></div><br>
+			<div><a href = "about" class='l'>About the site</a></div><br>
+      <div><a href = "tech" class='l'>Technologies used </a></div><br>
       <br>
+
 		</div><br>
 	  </nav>
+    <div id='yeet'>
+      <div class = "controller">          <img src="/images/user.png" style="width:20px;">
+ User Menu <div class="r">-&emsp; ▢&emsp; X</div></div>
+      {% if n %}
+      <div><a href = "logout" class='r'>Name: {{ name }}</a></div>
+      <div><a href="logout" class='r'> Logout </a></div>
+      {% else %}
+      <div><a href = "login" class='r'>Name: {{name}}</a></div>
+      <div><a href = "login" class='r'>Login</a></div>
+      {% endif %}
+    </div>
 	  <br>
       <main>
-        <div id="controller">
+        <div class="controller">
           <img src="/images/lolps.png" style="width:20px;">
           Windows PowerShell
           <div class="r">-&emsp; ▢&emsp; X</div>
