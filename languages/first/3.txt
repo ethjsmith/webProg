@@ -1,0 +1,5 @@
+# test function 
+S->A|B|C
+A->Aa|a
+B->Bb|b
+C->Cc|@
