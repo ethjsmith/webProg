@@ -5,6 +5,7 @@
 body {
   background-color: #264653;
   color: white;
+  padding: 0 20px;
 }
 
 nav {
@@ -49,4 +50,7 @@ nav {
 .row img {
   width: 250px;
   height: auto;
+  padding: 15px 0;
+  border-radius: 20px;
+  aspect-ratio: 1;
 }
