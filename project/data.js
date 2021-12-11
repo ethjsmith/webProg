@@ -2,7 +2,7 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('comments.db');
 
 db.serialize(function() {
-  db.run("DROP TABLE comments");
+//  db.run("DROP TABLE comments");
   db.run("CREATE TABLE comments (id INTEGER PRIMARY KEY AUTOINCREMENT, dt TEXT)");
 
   var stmt = db.prepare("INSERT INTO comments(dt) VALUES (?)");
