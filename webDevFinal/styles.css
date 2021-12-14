@@ -1,5 +1,6 @@
+
 @media only screen and (min-width:600px) {
-* {
+body, nav, main {
   margin: 0;
   padding: 0;
 }
@@ -257,3 +258,12 @@ footer {
     bottom:0;
   }
 }
+fieldset {
+  border-radius: 5px;
+}
+
+table, th, td {
+  border: 1px solid white;
+}
+
+
