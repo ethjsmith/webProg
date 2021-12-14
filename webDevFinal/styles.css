@@ -52,7 +52,6 @@ nav {
   width: 250px;
   height: auto;
   padding: 15px 0;
-  border-radius: 20px;
   aspect-ratio: 1;
 }
 .articlebody {
@@ -89,14 +88,16 @@ li ul li { /* I think this is the syntax for this */
 .artimg{
   width:30%;
   height:30%;
-
+}
+.pre {
+  max-width: 100px;
 }
 .rounder {
   border-radius: 50%;
 }
 .pa {
 text-align:justify;
-margin:5%;
+margin:3%;
 }
 .box {
   border: 1px solid lightgrey;
@@ -118,6 +119,9 @@ a {
 .l { /*  Use these inside a div to set the images to two different sides */
   float:left;
   width:47%;
+}
+.ll {
+  float:left;
 }
 .r {
   float:right;
