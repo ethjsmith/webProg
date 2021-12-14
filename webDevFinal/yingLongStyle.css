@@ -1,0 +1,80 @@
+/*
+    Student Name:Yinglong
+    File Name:styles.css
+    Date:12/01/2021
+*/
+
+body {
+	background-color: aqua;
+}
+footer{
+  background-color: grey;
+  text-align: center;
+  margin-top: 5%;
+  font-size: .70em;
+}
+.gamephoto{
+  height: 300px;
+  width: auto;
+}
+main{
+  text-align: center;
+}
+.medialink{
+  height: 100px;
+  width: auto;
+}
+header{
+  text-align: center;
+}
+h3{
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+}
+h3:left{
+  background-color: lawngreen;
+}
+p{
+  font-size: medium;
+}
+li{
+  font-size: medium;
+  font-family: 'Courier New', Courier, monospace;
+}
+p:hover{
+  background-color: honeydew;
+  color: rgb(43, 119, 206);
+}
+td,th,table{
+  border: 1px solid #b3d324;
+}
+@media only screen and (min-width: 600px) {
+  form{
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+table{
+  text-align: center;
+}
+.position{
+  margin-left: auto;
+  margin-right: auto;
+}
+.btn{
+  margin: 0 auto;
+  padding: 1%;
+  background-color: #579900;
+  font-size: small;
+  border-radius: 5px;
+  color: rgb(51, 175, 212);
+}
+label{
+  display: block;
+  padding-top: 2%;
+}
+#container {
+	width: 90%;
+	margin: 0 auto;
+  text-align: center;
+}

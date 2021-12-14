@@ -6,6 +6,7 @@ body {
   background-color: #264653;
   color: white;
   padding: 0 20px;
+  padding-bottom: 20px;
 }
 
 nav {
@@ -61,12 +62,27 @@ nav {
   font-size:2em;
   overflow:auto;
 }
+.articlebody h1,h3,h6{
+  text-align: center;
+}
+ul {
+  list-style: square inside;
+}
+ol {
+  list-style: number inside;
+}
+li ul li { /* I think this is the syntax for this */
+  margin-left: 10%;
+  margin-top:1%;
+  margin-bottom: 1%;
+}
 .articlemainimage {
   width:30%;
   height:30%;
   margin:auto;
   display:block;
 }
+
 .title {
   text-align:center;
 }
@@ -75,8 +91,25 @@ nav {
   height:30%;
 
 }
+.rounder {
+  border-radius: 50%;
+}
 .pa {
 text-align:justify;
+margin:5%;
+}
+.box {
+  border: 1px solid lightgrey;
+  padding:1%;
+
+}
+a {
+  color:white;
+}
+.box:hover {
+  text-shadow: 2px 2px #0F0FCB;
+  border: 1px solid darkgrey;
+  background-color:#404050;
 }
 .lr {
 
@@ -84,9 +117,13 @@ text-align:justify;
 }
 .l { /*  Use these inside a div to set the images to two different sides */
   float:left;
-  width:50%;
+  width:47%;
 }
 .r {
   float:right;
-  width:50%;
+  width:47%;
+}
+footer {
+  position:fixed;
+  bottom:0;
 }
