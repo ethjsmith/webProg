@@ -1,4 +1,4 @@
-* {
+body, nav, main {
   margin: 0;
   padding: 0;
 }
@@ -89,4 +89,7 @@ text-align:justify;
 .r {
   float:right;
   width:50%;
+}
+fieldset {
+  border-radius: 5px;
 }
