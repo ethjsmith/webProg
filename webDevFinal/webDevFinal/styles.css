@@ -1,0 +1,95 @@
+body, nav, main {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #264653;
+  color: white;
+  padding: 0 20px;
+}
+
+nav {
+  padding: 10px 0;
+  background-color: #2a9d8f;
+  border-radius: 50px;
+}
+.grid {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-gap: 10px;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.cell {
+  color: white;
+  flex-grow: 0.25;
+  text-align: center;
+  text-decoration: none;
+  font-size: xx-large;
+  padding: 5px;
+}
+
+.cell:hover {
+  background-color: #e76f51;
+  border-radius: 50px;
+}
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row img {
+  width: 250px;
+  height: auto;
+  padding: 15px 0;
+  border-radius: 20px;
+  aspect-ratio: 1;
+}
+.articlebody {
+  width:85%;
+  background-color: #464653;
+  margin:auto;
+  font-size:2em;
+  overflow:auto;
+}
+.articlemainimage {
+  width:30%;
+  height:30%;
+  margin:auto;
+  display:block;
+}
+.title {
+  text-align:center;
+}
+.artimg{
+  width:30%;
+  height:30%;
+
+}
+.pa {
+text-align:justify;
+}
+.lr {
+
+  margin:10px;
+}
+.l { /*  Use these inside a div to set the images to two different sides */
+  float:left;
+  width:50%;
+}
+.r {
+  float:right;
+  width:50%;
+}
+fieldset {
+  border-radius: 5px;
+}
