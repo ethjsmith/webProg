@@ -23,7 +23,7 @@ app.use(express.static(__dirname + '/public'))
 .use(cors())
 .use(bodyparser.urlencoded({extended:true}))
 .use(session({
-    secret: 'TEMPlol91823810',
+    secret: 'INVALID',
     saveUninitialized: false,
     resave: false,
 }))
@@ -47,7 +47,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'],
 //redirectUri= 'http://134.250.79.116:8888/callback',
 redirectUri = "http://localhost:8888/callback"
-clientId= "6048c6185d4941dbba9e5e61f4e57c44",
+clientId= "INVALID",
 state = "",
 showDialog= true,
 responseType= "code";
@@ -56,7 +56,7 @@ require('dotenv').config();
 
 var spotifyApi = new SpotifyWebApi({
   redirectUri:redirectUri,
-  clientSecret: '9095881a9eae48179b801202372a135c',
+  clientSecret: 'INVALID',
   clientId:clientId
 });
 function setname(req, res) {
@@ -398,7 +398,7 @@ router.get("/linky", async(req,res) => {
                     //console.log("chunk::" + i.id);
                     ids.push(i.id)
                   }
-                  console.log(ids) // pushing these ids 
+                  console.log(ids) // pushing these ids
                   spotifyApi.addTracksToPlaylist(lz,ids);
                 } //heyheyhey
               })
