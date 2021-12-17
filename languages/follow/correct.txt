@@ -1,0 +1,20 @@
+Calculate FOLLOW sets of:
+S -> WXYZ
+W -> YZ | wW
+X -> x
+Y -> yY | e
+Z -> zZ | e
+
+FIRST of above example:
+F:(S) = {} = {y,z,w}
+F:(W) = {} = {y,z,w,e}
+F:(X) = {} = {x}
+F:(Y) = {} = {y,e}
+F:(Z) = {} = {z,e}
+
+FOLLOW of above example:
+Fo:(S) = {} = {$}
+Fo:(W) = {} = {x}
+Fo:(X) = {} = {$,y,z}
+Fo:(Y) = {} = {$,z,x}
+Fo:(Z) = {} = {$,x}

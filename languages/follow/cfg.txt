@@ -1,6 +1,5 @@
-# Example from the slides 
-S->XYZW
-X->ZW|xX
-Y->y
+S->WXYZ
+W->YZ|wW
+X->x
+Y->yY|@
 Z->zZ|@
-W->wW|@

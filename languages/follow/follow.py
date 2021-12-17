@@ -1,3 +1,8 @@
+# Ethan Smith
+
+#Create a program that will accept an arbitrary CFG as input and that will output FOLLOW sets for all non-terminals in the grammar.
+#The program should read from an input file and output to the console (screen). Submit a zip file that includes your program and input files.
+
 # FIRST Rules:
 # 1) FIRST(x) = {x} if x is a terminal
 # 2) FIRST(ε) = {ε}
@@ -8,11 +13,6 @@
 # FIRST(<x>)
 # 5) If <x> → <y>0<y>1<y>2...<y>k and ε ∈ FIRST(<y>0) and ε ∈ FIRST(<y>1) and ε ∈
 # FIRST(<y>2) and ... and ε ∈ FIRST(<y>k), then add ε to FIRST(<x>)
-
-#Create a program that will accept an arbitrary CFG as input and that will output FOLLOW sets for all non-terminals in the grammar.
-#The program should read from an input file and output to the console (screen). Submit a zip file that includes your program and input files.
-
-
 
 # FOLLOW Rules:
 # 1) If <s> is the starting symbol of the grammar, then add $ to FOLLOW(S)
@@ -29,8 +29,9 @@
 import sys
 from first import *
 allfollows = {}
+f = {}
 def isterminal(x,dict): # check if a given character is a terminal
-    print(f"x:{x}, dict:{dict}")
+    #print(f"x:{x}, dict:{dict}")
     if x in dict:
         return False # not a terminal, a key
     return True # terminal
@@ -40,60 +41,60 @@ def changing(current,prev): # checks if there are still changes happening to the
         return False
     return True
 
-def gfollow(cfg,firsts):
-    all = {}
-    all[list(cfg.keys())[0]] = "$" # rule 01
-    for k in cfg.keys():
-        if not isterminal(cfg[k][:-1],cfg): # rule 02
-            all[cfg[k][:-1]] = all[k]
-        else: # rule 03 maybe : ) ?
-            if "@" in firsts[cfg[k][:-1]]:
-                t = firsts[cfg[k][:-1]]
-                t.remove("@")
-                all[cfg[k][:-2]] = t + all[k]
+    return a
+
+# does the actual change of the set of follows 
+def morph(rule,result):
+
+    if rule in result: # if our rule is contained in the right hand side of a rule,
+        found = False
+        br = False
+        for letter in result:
+            print(letter)
+            if letter == rule:
+                found = True
+            if found:
+                br = True
+                # here we are following our symbol, so now we apply rules.
+                #print(letter)
+                fn = first(letter,cfg)
+                if "@" in fn:
+                    br = False
+                    fn.remove("@")
+                if rule not in follows:
+                    f[rule] = fn
+                else:
+                    f[rule] += fn
+            if br:
+                break
+
+
+def fol(cfg,firsts):
+    follows = {}
+    for rule in cfg.keys():
+        if rule == "S": # yeah boy
+            f[rule] = "$"
+            continue
+        for result in cfg.items():
+            #print(f"{result} is a {type(result)}")
+            if type(result) == list or type(result) == tuple:
+                for entry in result:
+                    morph(rule,entry)
+                # this is where it gets fucked
             else:
-                all[cfg[k][:-2]] = firsts[cfg[k][:-1]]
+                morph(rule,result)
 
+        for result in cfg.items():
+            if type(result) == list or type(result) == tuple:
+                for entry in result:
+                    if entry[-1] in f[rule]:
+                        f[rule].add("$")
+            else:
+                if result[-1] in f[rule]:
+                    f[rule].add("$")
 
-def follow(key,cfg,firsts):
-    # apply follow rules to cfg
-    f = []
-    # if key is the first symbol, add $ to it's follow
-    # 1 I don't know how to check this... Ill hard code it LOL
+    print(follows)
 
-    if key == "S" or key == "s":
-        f.append("$") #EOL
-        allfollows[key]  = allfollows[key] + ["$"]
-    # 2 if a rule ends in a nonterminal <x> add the follow(rule) to follow(x)
-    if not isterminal(cfg[key][:-1],cfg): # this doesn't work actually
-        f = follow(cfg[key][:-1],cfg,firsts)
-
-    for rule in cfg[key]:
-        if not isterminal(rule[:-1]):
-            allfollows[rule[:-1]] += allfollows[key]
-
-    # 3 if in a rule, everything after <x> can go to epsilon, add follow(rule) to follow(x)
-    if isterminal(cfg[key][:-1],cfg):
-        for char in reversed(cfg[key]):
-            print("x")
-    return -1
-
-    # 4 if y -> <x>z then add first(<x>z)-@ to follow(?)
-
-    # 5 if in the above case, <x>z has epsilon, continue, adding new ones on there ? idk this one
-
-# 1) FOLLOW(S) = { $ }   // where S is the starting Non-Terminal
-#
-# 2) If A -> pBq is a production, where p, B and q are any grammar symbols,
-#    then everything in FIRST(q)  except Є is in FOLLOW(B).
-#
-# 3) If A->pB is a production, then everything in FOLLOW(A) is in FOLLOW(B).
-#
-# 4) If A->pBq is a production and FIRST(q) contains Є,
-#    then FOLLOW(B) contains { FIRST(q) – Є } U FOLLOW(A)
-
-# https://www.gatevidyalay.com/first-and-follow-compiler-design/
-# this seems to have a good ruleset explaination ?
 
 fname = "cfg.txt"
 
@@ -103,8 +104,7 @@ firsts = getallFirsts(fname) # use firsts function to get firsts of all characte
 print(f"firsts:{firsts}")
 
 follows = {}
-for key in cfg:
-    follows[key] = gfollow(cfg,firsts)
-    print(f"Follow of {key} is {gfollow(cfg,firsts)}") # get the first of each key in the dict
-
-#return follows # neat
+#z = fo(cfg,firsts)
+zz = fol(cfg,firsts)
+#print(f"output:{z}")
+print(f)
